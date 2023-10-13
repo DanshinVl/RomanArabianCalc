@@ -1,3 +1,4 @@
+
 import java.util.Scanner;
 
 public class Main {
@@ -8,8 +9,14 @@ public class Main {
         String input = scanner.nextLine();
 
         String [] parts = input.split(" ");
-        if (parts.length != 3) {
-            System.out.println("Недопустимое значение");
+
+        if (parts.length == 1) {
+            System.out.println("Cтрока не является математической операцией");
+            return;
+        }
+
+        if (parts.length > 3) {
+            System.out.println("Формат математической операции не удовлетворяет заданию - два операнда и один оператор (+, -, /, *)");
             return;
         }
 
@@ -22,24 +29,25 @@ public class Main {
         int num1 = isRoman ? RomanToArab(op1): convertToNumber(op1);
         int num2 = isRoman ? RomanToArab(op2): convertToNumber(op2);
 
-        if (num1 == -1 || num2 == -1) {
-            System.out.println("Только целое число от 1 до 10");
-            return;
-        }
+            if (num1 == -1 || num2 == -1) {
+                System.out.println("Используются разные системы счисления");
+                return;
+
+            }
 
         int res = calc(num1, num2, action);
 
-            if (isRoman) {
-                if (res <= 0) {
-                    System.out.println("Несуществующий символ");
-                } else {
-                    String romRes = arabToRom(res);
-                    System.out.println(romRes);
-                }
+        if (isRoman) {
+            if (res <= 0) {
+                System.out.println("В римской системе нет отрицательных чисел"); //try-catch (I - II)
             } else {
-                    System.out.println(res);
-                }
+                String romRes = arabToRom(res);
+                System.out.println(romRes);
             }
+        } else {
+            System.out.println(res);
+        }
+    }
 
 
 
@@ -63,42 +71,44 @@ public class Main {
         return res;
     }
 
-        static int convertToNumber (String sym){
-            try {
-                int numb = Integer.parseInt(sym);
-                if (numb >= 1 && numb <= 10) {
-                    return numb;
-                }
-            } catch (NumberFormatException e) {
+    static int convertToNumber (String sym){
+        try {
+            int numb = Integer.parseInt(sym);
+            if (numb >= 1 && numb <= 10) {
+                return numb;
             }
-            return -1;
+        } catch (NumberFormatException e) {
         }
+        return -1;
+    }
 
-        static int romanVal ( char i){
-            switch (i) {
-                case 'I':
-                    return 1;
-                case 'V':
-                    return 5;
-                case 'X':
-                    return 10;
-                default:
-                    return 0;
-            }
+    static int romanVal ( char i){
+        switch (i) {
+            case 'I': return 1;
+            case 'V': return 5;
+            case 'X': return 10;
+            default:
+                return 0;
         }
+    }
 
-        static String arabToRom (int number){
-            if (number <= 0) {
-                return "Некорректное значение";
-            }
-            String[] symArr = {"I", "II", "III", "IV", "V", "VI", "VII", "VIII", "XI", "X"};
-            if (number >= 1 && number <= 10) {
-                return symArr[number - 1];
-            }
-            return "Недопустимое значение";
+    static String arabToRom (int number){
+        if (number <= 0) {
+            return "Некорректное значение";
         }
+        String[] symArr = {"I", "II", "III", "IV", "V", "VI", "VII", "VIII", "XI", "X", "XI","XII","XIII","XIV","XV",
+                "XVI", "XVII", "XVIII", "XIX", "XX", "XXI", "XXII", "XXIII", "XXIV", "XXV", "XXVI", "XXVII", "XXVIII", "XXIX", "XXX", "XXXI", "XXXII", "XXXIII", "XXXIV",
+                "XXXV", "XXXVI", "XXXVII", "XXXVIII", "XXXIX", "XL", "XLI", "XLII", "XLIII", "XLIV", "XLV", "XLVI", "XLVII", "XLVIII", "XLVIX", "L", "LI", "LII", "LIII",
+                "LIV", "LV", "LVI", "LVII", "LVIII", "LIX", "LX", "LXI", "LXII", "LXIII", "LXIV", "LXV", "LXVI", "LXVI", "LXVII", "LXVIII", "LXIX", "LXX", "LXXI", "LXXI",
+                "LXXII", "LXXIII", "LXXIV", "LXXV", "LXXVI", "LXXVII", "LXXVIII", "LXXIX", "LXXX", "LXXXI", "LXXXII", "LXXXIII", "LXXXIV", "LXXXV", "LXXXVI", "LXXXVI", "LXXXVII",
+                "LXXXVIII", "LXXXIX", "XC", "XCI", "XCII", "XCIII", "XCIV", "XCV", "XCVI", "XCVII", "XCVIII", "XCIX", "C"};
+        if (number >= 1 && number <= 100) {
+            return symArr[number - 1];
+        }
+        return "Недопустимое значение";
+    }
 
-        static int calc(int num1, int num2, String action) {
+    static int calc(int num1, int num2, String action) {
         switch (action) {
             case "+": return num1 + num2;
             case "-": return num1 - num2;
@@ -113,4 +123,5 @@ public class Main {
                 return 0;
         }
     }
+
 }

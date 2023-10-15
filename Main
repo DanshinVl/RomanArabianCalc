@@ -1,23 +1,31 @@
-
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
+        String result = new String();
+        result = in(calc(result));
+        System.out.println(result);
+    }
 
+    private static String in(String calc) {
+        return calc;
+    }
+
+
+    public static String calc(String input) {
         System.out.println("Ввод выражения:");
-        String input = scanner.nextLine();
+        Scanner scanner = new Scanner(System.in);
+        String in = scanner.nextLine();
 
-        String [] parts = input.split(" ");
+        String[] parts = in.split(" ");
 
         if (parts.length == 1) {
-            System.out.println("Cтрока не является математической операцией");
-            return;
+            throw new RuntimeException("строка не является математической операцией");
         }
 
         if (parts.length > 3) {
-            System.out.println("Формат математической операции не удовлетворяет заданию - два операнда и один оператор (+, -, /, *)");
-            return;
+            throw new RuntimeException("формат математической операции не удовлетворяет заданию - два операнда и один оператор (+, -, /, *)");
         }
 
         String op1 = parts[0];
@@ -26,20 +34,18 @@ public class Main {
 
         boolean isRoman = isRomanNum(op1) && isRomanNum(op2);
 
-        int num1 = isRoman ? RomanToArab(op1): convertToNumber(op1);
-        int num2 = isRoman ? RomanToArab(op2): convertToNumber(op2);
+        int num1 = isRoman ? RomanToArab(op1) : convertToNumber(op1);
+        int num2 = isRoman ? RomanToArab(op2) : convertToNumber(op2);
 
-            if (num1 == -1 || num2 == -1) {
-                System.out.println("Используются разные системы счисления");
-                return;
-
-            }
+        if (num1 == -1 || num2 == -1) {
+            throw new RuntimeException("Используются разные системы счисления");
+        }
 
         int res = calc(num1, num2, action);
 
         if (isRoman) {
             if (res <= 0) {
-                System.out.println("В римской системе нет отрицательных чисел"); //try-catch (I - II)
+                throw new RuntimeException("в римской системе нет отрицательных чисел");
             } else {
                 String romRes = arabToRom(res);
                 System.out.println(romRes);
@@ -47,6 +53,7 @@ public class Main {
         } else {
             System.out.println(res);
         }
+        return input;
     }
 
 
@@ -82,7 +89,7 @@ public class Main {
         return -1;
     }
 
-    static int romanVal ( char i){
+    static int romanVal (char i){
         switch (i) {
             case 'I': return 1;
             case 'V': return 5;
@@ -123,5 +130,4 @@ public class Main {
                 return 0;
         }
     }
-
-}
+    }

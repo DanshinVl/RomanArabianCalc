@@ -2,21 +2,18 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
+        System.out.println("Ввод выражения:");
         Scanner scanner = new Scanner(System.in);
+        String input = scanner.nextLine();
+        calc(input);
         String result = new String();
-        result = in(calc(result));
         System.out.println(result);
-    }
 
-    private static String in(String calc) {
-        return calc;
     }
 
 
     public static String calc(String input) {
-        System.out.println("Ввод выражения:");
-        Scanner scanner = new Scanner(System.in);
-        String in = scanner.nextLine();
+        String in = input;
 
         String[] parts = in.split(" ");
 
@@ -53,6 +50,7 @@ public class Main {
         } else {
             System.out.println(res);
         }
+
         return input;
     }
 

@@ -5,17 +5,12 @@ public class Main {
         System.out.println("Ввод выражения:");
         Scanner scanner = new Scanner(System.in);
         String input = scanner.nextLine();
-        calc(input);
-        String result = new String();
-        System.out.println(result);
-
+        System.out.println(calc(input));
     }
 
-
     public static String calc(String input) {
-        String in = input;
 
-        String[] parts = in.split(" ");
+        String[] parts = input.split(" ");
 
         if (parts.length == 1) {
             throw new RuntimeException("строка не является математической операцией");
@@ -38,7 +33,7 @@ public class Main {
             throw new RuntimeException("Используются разные системы счисления");
         }
 
-        int res = calc(num1, num2, action);
+        int res = calculate(num1, num2, action);
 
         if (isRoman) {
             if (res <= 0) {
@@ -53,8 +48,6 @@ public class Main {
 
         return input;
     }
-
-
 
     static boolean isRomanNum(String x) {
         return x.matches("^[IVX]+$");
@@ -113,7 +106,7 @@ public class Main {
         return "Недопустимое значение";
     }
 
-    static int calc(int num1, int num2, String action) {
+    static int calculate(int num1, int num2, String action) {
         switch (action) {
             case "+": return num1 + num2;
             case "-": return num1 - num2;
@@ -128,4 +121,4 @@ public class Main {
                 return 0;
         }
     }
-    }
+}
